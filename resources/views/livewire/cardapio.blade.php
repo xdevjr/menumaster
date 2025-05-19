@@ -31,11 +31,11 @@
             </div>
             <div class="mt-4 flex justify-end gap-2">
                 <button wire:click="limparFiltros"
-                    class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
+                    class="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
                     Limpar Filtros
                 </button>
                 <button wire:click="buscarPratos"
-                    class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-500 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
+                    class="px-4 py-2 cursor-pointer text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-500 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
                     Buscar
                 </button>
             </div>
@@ -54,7 +54,7 @@
             <div class="mb-6 flex flex-wrap gap-2">
                 @forelse ($categorias as $categoria)
                     <button wire:click="selecionarCategoria({{ $categoria->id }})"
-                        class="px-4 py-2 rounded-md {{ $categoriaAtiva == $categoria->id ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200' }}">
+                        class="px-4 py-2 cursor-pointer rounded-md {{ $categoriaAtiva == $categoria->id ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200' }}">
                         {{ $categoria->nome }}
                         <span
                             class="ml-1 px-1.5 py-0.5 text-xs rounded-full {{ $categoriaAtiva == $categoria->id ? 'bg-white text-indigo-600' : 'bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300' }}">
@@ -98,7 +98,7 @@
                                 <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">R$
                                     {{ number_format($prato->preco, 2, ',', '.') }}</span>
                                 <button
-                                    class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:focus:ring-offset-gray-800">
+                                    class=" cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:focus:ring-offset-gray-800">
                                     Ver detalhes
                                 </button>
                             </div>
@@ -121,7 +121,7 @@
                                 <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">R$
                                     {{ number_format($prato->preco, 2, ',', '.') }}</span>
                                 <button
-                                    class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:focus:ring-offset-gray-800">
+                                    class="cursor-pointer inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:focus:ring-offset-gray-800">
                                     Ver detalhes
                                 </button>
                             </div>
@@ -145,7 +145,7 @@
                         <div class="flex justify-between items-center">
                             <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $pratoSelecionado->nome }}</h3>
                             <button wire:click="fecharDetalhesPrato"
-                                class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                                class="text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
@@ -162,7 +162,7 @@
                             <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">R$
                                 {{ number_format($pratoSelecionado->preco, 2, ',', '.') }}</span>
                             <button wire:click="adicionarAoPedido({{ $pratoSelecionado->id }})"
-                                class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:focus:ring-offset-gray-800">
+                                class="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 dark:focus:ring-offset-gray-800">
                                 Adicionar ao Pedido
                             </button>
                         </div>
