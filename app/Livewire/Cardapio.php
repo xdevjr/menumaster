@@ -112,6 +112,7 @@ class Cardapio extends Component
 
     public function render()
     {
-        return view('livewire.cardapio');
+        return view('livewire.cardapio')
+            ->title('Cardápio');
     }
 }
