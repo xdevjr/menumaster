@@ -1,7 +1,9 @@
 <?php
 
 use App\Livewire\Cardapio;
+use App\Livewire\Carrinho;
 use App\Livewire\Categorias\CategoriaIndex;
+use App\Livewire\Pedidos\PedidoIndex;
 use App\Livewire\Pratos\PratoIndex;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -26,6 +28,15 @@ Route::middleware(['auth'])->group(function () {
 
     // Rotas para Pratos
     Route::get('pratos', PratoIndex::class)->name('pratos.index');
+
+    // Rotas para Pedidos
+    Route::get('pedidos', PedidoIndex::class)->name('pedidos.index');
+
+    // Rota para Carrinho
+    Route::get('carrinho', Carrinho::class)->name('carrinho.index');
+
+    // Rota para Cardápio
+    Route::get('cardapio', Cardapio::class)->name('cardapio');
 });
 
 require __DIR__ . '/auth.php';

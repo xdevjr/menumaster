@@ -22,6 +22,10 @@
                 </flux:navlist.item>
                 <flux:navlist.item icon="queue-list" :href="route('pratos.index')"
                     :current="request()->routeIs('pratos.*')" wire:navigate>{{ __('Pratos') }}</flux:navlist.item>
+                <flux:navlist.item icon="shopping-cart" :href="route('pedidos.index')"
+                    :current="request()->routeIs('pedidos.*')" wire:navigate>{{ __('Pedidos') }}</flux:navlist.item>
+                <flux:navlist.item icon="shopping-bag" :href="route('carrinho.index')"
+                    :current="request()->routeIs('carrinho.*')" wire:navigate>{{ __('Carrinho') }}</flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 

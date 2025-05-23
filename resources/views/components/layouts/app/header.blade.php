@@ -27,6 +27,14 @@
                 wire:navigate>
                 {{ __('Pratos') }}
             </flux:navbar.item>
+            <flux:navbar.item icon="shopping-cart" :href="route('pedidos.index')"
+                :current="request()->routeIs('pedidos.*')" wire:navigate>
+                {{ __('Pedidos') }}
+            </flux:navbar.item>
+            <flux:navbar.item icon="shopping-bag" :href="route('carrinho.index')"
+                :current="request()->routeIs('carrinho.*')" wire:navigate>
+                {{ __('Carrinho') }}
+            </flux:navbar.item>
         </flux:navbar>
 
         <flux:spacer />

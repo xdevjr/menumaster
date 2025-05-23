@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Categoria;
 use App\Models\Prato;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Cardapio extends Component
@@ -16,6 +17,7 @@ class Cardapio extends Component
     public $filtroPrecoPara;
     public $modoBusca = false;
     public $pratosEncontrados = [];
+    public $totalPedidosUsuario = 0;
 
     public function mount()
     {
@@ -24,6 +26,16 @@ class Cardapio extends Component
         // Se existem categorias, selecionar a primeira como ativa
         if ($this->categorias->isNotEmpty()) {
             $this->categoriaAtiva = $this->categorias->first()->id;
+        }
+
+        // Carrega o total de pedidos do usuário logado
+        $this->atualizarTotalPedidos();
+    }
+
+    public function atualizarTotalPedidos()
+    {
+        if (Auth::check()) {
+            $this->totalPedidosUsuario = \App\Models\Pedido::contarItensCarrinho(Auth::id());
         }
     }
 
@@ -105,9 +117,42 @@ class Cardapio extends Component
 
     public function adicionarAoPedido($pratoId)
     {
-        // Implementar lógica para adicionar ao pedido (a ser implementado futuramente)
-        session()->flash('message', 'Prato adicionado ao pedido!');
+        // Verifica se o usuário está autenticado
+        if (!Auth::check()) {
+            session()->flash('error', 'Você precisa estar logado para fazer um pedido.');
+            return;
+        }
+
+        // Verifica se o prato existe
+        $prato = Prato::find($pratoId);
+        if (!$prato) {
+            session()->flash('error', 'Prato não encontrado.');
+            return;
+        }
+
+        // Verifica se já existe um item deste prato no carrinho do usuário
+        $pedidoExistente = \App\Models\Pedido::carrinho()
+            ->where('id_user', Auth::id())
+            ->where('id_prato', $pratoId)
+            ->first();
+
+        if ($pedidoExistente) {
+            // Se já existe, incrementa a quantidade
+            $pedidoExistente->increment('qtd');
+            session()->flash('message', "Quantidade do prato '{$prato->nome}' foi aumentada no seu carrinho!");
+        } else {
+            // Cria um novo item no carrinho
+            \App\Models\Pedido::create([
+                'id_user' => Auth::id(),
+                'id_prato' => $pratoId,
+                'qtd' => 1,
+                'status' => 'carrinho',
+            ]);
+            session()->flash('message', "Prato '{$prato->nome}' foi adicionado ao seu carrinho!");
+        }
+
         $this->pratoSelecionado = null;
+        $this->atualizarTotalPedidos(); // Atualiza o contador após adicionar
     }
 
     public function render()

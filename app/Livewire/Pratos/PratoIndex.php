@@ -20,6 +20,8 @@ class PratoIndex extends Component
     public $pratoId = null;
     public $isModalOpen = false;
     public $isEditMode = false;
+    public $showDeleteModal = false;
+    public $pratoToDelete = null;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -78,10 +80,21 @@ class PratoIndex extends Component
         $this->isEditMode = true;
         $this->resetErrorBag();
     }
-
     public function closeModal()
     {
         $this->isModalOpen = false;
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->pratoToDelete = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->showDeleteModal = false;
+        $this->pratoToDelete = null;
     }
 
     public function save()
@@ -120,18 +133,24 @@ class PratoIndex extends Component
         $this->resetPage();
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $prato = Prato::findOrFail($id);
+        if (!$this->pratoToDelete) {
+            return;
+        }
+
+        $prato = Prato::findOrFail($this->pratoToDelete);
 
         // Verifica se existem pedidos vinculados ao prato
         if ($prato->pedidos()->count() > 0) {
             $this->addError('delete', 'Este prato não pode ser excluído pois possui pedidos vinculados.');
+            $this->closeDeleteModal();
             return;
         }
 
         $prato->delete();
         session()->flash('message', 'Prato excluído com sucesso!');
+        $this->closeDeleteModal();
     }
 
     public function render()

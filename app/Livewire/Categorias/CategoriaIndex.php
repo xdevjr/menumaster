@@ -9,12 +9,13 @@ use Livewire\WithPagination;
 class CategoriaIndex extends Component
 {
     use WithPagination;
-
     public $search = '';
     public $nome = '';
     public $categoriaId = null;
     public $isModalOpen = false;
     public $isEditMode = false;
+    public $showDeleteModal = false;
+    public $categoriaToDelete = null;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -53,10 +54,21 @@ class CategoriaIndex extends Component
         $this->isEditMode = true;
         $this->resetErrorBag();
     }
-
     public function closeModal()
     {
         $this->isModalOpen = false;
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->categoriaToDelete = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->showDeleteModal = false;
+        $this->categoriaToDelete = null;
     }
 
     public function save()
@@ -80,18 +92,24 @@ class CategoriaIndex extends Component
         $this->resetPage();
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $categoria = Categoria::findOrFail($id);
+        if (!$this->categoriaToDelete) {
+            return;
+        }
+
+        $categoria = Categoria::findOrFail($this->categoriaToDelete);
 
         // Verifica se existem pratos vinculados à categoria
         if ($categoria->pratos()->count() > 0) {
             $this->addError('delete', 'Esta categoria não pode ser excluída pois possui pratos vinculados.');
+            $this->closeDeleteModal();
             return;
         }
 
         $categoria->delete();
         session()->flash('message', 'Categoria excluída com sucesso!');
+        $this->closeDeleteModal();
     }
 
     public function render()
